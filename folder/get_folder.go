@@ -1,7 +1,6 @@
 package folder
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/gofrs/uuid"
@@ -29,8 +28,7 @@ func (f *driver) GetAllChildFolders(orgID uuid.UUID, name string) []Folder {
 	// Your code here...
 	folders := f.GetFoldersByOrgID(orgID)
 	if len(folders) == 0 {
-		defer fmt.Println("Error: Organization does not exist")
-		return []Folder{}
+		panic("Error: Organization does not exist")
 	}
 
 	res := []Folder{}
@@ -53,15 +51,10 @@ func (f *driver) GetAllChildFolders(orgID uuid.UUID, name string) []Folder {
 		folders = f.folders
 		for _, f := range folders {
 			if f.Name == name {
-				defer fmt.Println("Error: Folder does not exist in the specified organization")
-				isValidFolder = true
-				break
+				panic("Error: Folder does not exist in the specified organization")
 			}
 		}
-	}
-
-	if !isValidFolder {
-		defer fmt.Println("Error: Folder does not exist")
+		panic("Error: Folder does not exist")
 	}
 
 	return res
