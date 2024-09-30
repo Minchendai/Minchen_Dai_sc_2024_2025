@@ -33,15 +33,15 @@ func (f *driver) GetAllChildFolders(orgID uuid.UUID, name string) []Folder {
 
 	res := []Folder{}
 	isValidFolder := false
-	for _, f := range folders {
-		if f.Name == name {
+	for _, curfolder := range folders {
+		if curfolder.Name == name {
 			isValidFolder = true
 			continue
 		}
-		path := strings.Split(f.Paths, ".")
+		path := strings.Split(curfolder.Paths, ".")
 		for _, p := range path {
 			if p == name {
-				res = append(res, f)
+				res = append(res, curfolder)
 				break
 			}
 		}
