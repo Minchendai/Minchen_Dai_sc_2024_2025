@@ -433,9 +433,9 @@ func Test_folder_GetAllChildFolders(t *testing.T) {
 			get := f.GetAllChildFolders(tt.orgID, tt.name)
 			wantFolderMap := make(map[folder.Folder]bool)
 			wanted := []folder.Folder{}
-			err := json.Unmarshal(tt.want, &wanted)
-			if err != nil {
-				panic(err)
+			json.Unmarshal(tt.want, &wanted)
+			if tt.expectedError != "" {
+				panic("Error not detected")
 			}
 			for _, curFolder := range wanted {
 				wantFolderMap[curFolder] = true
