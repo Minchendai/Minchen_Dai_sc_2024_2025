@@ -322,6 +322,9 @@ func Test_folder_GetFoldersByOrgID(t *testing.T) {
 					delete(wantFolderMap, curFolder)
 				}
 			}
+			if len(wantFolderMap) != 0 {
+				t.Errorf("Test result not match for Organization %s ", tt.orgID)
+			}
 		})
 	}
 }
@@ -447,6 +450,10 @@ func Test_folder_GetAllChildFolders(t *testing.T) {
 				} else {
 					delete(wantFolderMap, curFolder)
 				}
+			}
+
+			if len(wantFolderMap) != 0 {
+				t.Errorf("Test result not match for Organization %s ", tt.orgID)
 			}
 		})
 	}

@@ -69,16 +69,8 @@ func Test_folder_MoveFolder(t *testing.T) {
 			"org_id": "9b4cdb0a-cfea-4f9d-8a68-24f038fae385",
 			"paths": "steady-insect.national-screwball.alive-tsunami"
 		}]`)},
-		{2, "not-existing-folder", "national-screwball", "source folder does not exist", []byte(`[{
-			"name": "national-screwball",
-			"org_id": "9b4cdb0a-cfea-4f9d-8a68-24f038fae385",
-			"paths": "steady-insect.national-screwball"
-		}]`),
-			[]byte(`[{
-			"name": "national-screwball",
-			"org_id": "9b4cdb0a-cfea-4f9d-8a68-24f038fae385",
-			"paths": "steady-insect.national-screwball"
-		}]`)},
+		{2, "not-existing-folder", "national-screwball", "source folder does not exist", []byte(`[]`),
+			[]byte(`[]`)},
 		{3, "national-screwball", "not-existing-folder", "destination folder does not exist", []byte(`[{
 			"name": "national-screwball",
 			"org_id": "9b4cdb0a-cfea-4f9d-8a68-24f038fae385",
@@ -141,7 +133,7 @@ func Test_folder_MoveFolder(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			folders := []folder.Folder{}
-			json.Unmarshal(tt.want, &folders)
+			json.Unmarshal(tt.folders, &folders)
 			f := folder.NewDriver(folders)
 			newFolders, err := f.MoveFolder(tt.name, tt.dst)
 			wantFolderMap := make(map[folder.Folder]bool)
@@ -161,6 +153,9 @@ func Test_folder_MoveFolder(t *testing.T) {
 				} else {
 					delete(wantFolderMap, curFolder)
 				}
+			}
+			if len(wantFolderMap) != 0 {
+				t.Errorf("Test result not match for test  %d ", tt.testId)
 			}
 		})
 	}
